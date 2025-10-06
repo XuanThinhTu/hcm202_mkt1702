@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/assets/flag_of_Vietnam.png" type="image/x-icon" />
+    <title>Hành trang cuộc đời</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="fancy-header">
+      <div class="header-content">
+        <h1>🎒 Hành trang cuộc đời <span>— Tôi & Chúng ta</span></h1>
+        <div class="header-buttons">
+          <button id="guideBtn" title="Hướng dẫn" class="guide-btn">
+            📘 Hướng dẫn
+          </button>
+          <button id="restartBtn" title="Chơi lại" class="restart-btn">
+            🔄 Chơi lại
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="wrapper">
+      <section class="hud" id="hud">
+        <div
+          class="stat"
+          data-tooltip="Thể lực – giảm khi di chuyển hoặc mang nặng."
+        >
+          <div class="label">Thể lực</div>
+          <div class="bar" id="staminaBar"><span></span></div>
+        </div>
+        <div
+          class="stat"
+          data-tooltip="Khối lượng balo – tăng khi bạn giữ vật phẩm riêng."
+        >
+          <div class="label">Khối lượng (balo)</div>
+          <div class="bar red" id="weightBar"><span></span></div>
+        </div>
+        <div
+          class="stat"
+          data-tooltip="Kho chung của cộng đồng – tăng khi bạn chia sẻ hoặc giúp đỡ."
+        >
+          <div class="label">Kho chung</div>
+          <div class="bar" id="warehouseBar"><span></span></div>
+        </div>
+        <div
+          class="stat"
+          data-tooltip="Danh tiếng – tăng khi bạn lan tỏa, chia sẻ, giúp đỡ."
+        >
+          <div class="label">Danh tiếng</div>
+          <div class="bar cyan" id="esteemBar"><span></span></div>
+        </div>
+        <div
+          class="stat"
+          data-tooltip="Thẻ trợ giúp – có thể dùng để vượt chướng ngại dễ dàng."
+        >
+          <div class="label">Thẻ trợ giúp</div>
+          <div style="margin-top: 6px; font-weight: 600" id="helperCount">
+            0
+          </div>
+        </div>
+      </section>
+
+      <div id="board" aria-label="Bản đồ"></div>
+
+      <div class="panel" id="panel">
+        <div class="prompt" id="prompt">Bạn gặp vật phẩm…</div>
+        <div class="actions">
+          <button id="optA" class="danger">Cho mình</button>
+          <button id="optB" class="primary">Giúp/Chia sẻ</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="end">
+      <div class="card">
+        <h2 id="endTitle">Kết thúc</h2>
+        <p id="endMsg">…</p>
+        <div class="row">
+          <span class="badge" id="statS"></span>
+          <span class="badge" id="statW"></span>
+          <span class="badge" id="statWh"></span>
+          <span class="badge" id="statE"></span>
+          <span class="badge" id="statH"></span>
+        </div>
+        <div class="footer">
+          <button onclick="initGame()">Chơi lại</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🎓 HƯỚNG DẪN POP-UP -->
+    <div id="guideOverlay" class="guide-overlay">
+      <div class="guide-card">
+        <button id="closeGuide" class="close-guide">✖</button>
+        <h2>📘 Hướng dẫn chơi</h2>
+        <p>
+          Trò chơi “<b>Hành trang cuộc đời</b>” mô phỏng hành trình mỗi người
+          trong xã hội — khi ta biết sẻ chia, giúp đỡ người khác, con đường sẽ
+          dần được khai mở.
+        </p>
+
+        <h3>🎯 Mục tiêu</h3>
+        <p>
+          Di chuyển nhân vật <b>🧑‍🎓</b> đến <b>🚪 Cửa đích</b> <br />
+          nhưng bạn chỉ chiến thắng khi <b>Kho chung</b> của cộng đồng đủ điểm!
+        </p>
+
+        <h3>🕹️ Cách chơi</h3>
+        <ul>
+          <li>Di chuyển bằng phím <b>W A S D</b> hoặc mũi tên.</li>
+          <li>
+            Gặp vật phẩm 🎁 — chọn “<b>Nhặt cho mình</b>” hoặc “<b>Chia sẻ</b>”.
+          </li>
+          <li>Gặp người cần giúp ♿ — chọn giúp đỡ để tăng điểm Kho chung.</li>
+          <li>Gặp chướng ngại ⛈️ — vượt qua hoặc dùng thẻ Trợ giúp.</li>
+          <li>
+            Chia sẻ nhiều sẽ mở thêm đường đi, và giúp cổng đích mở ra sớm hơn!
+          </li>
+        </ul>
+
+        <h3>🧩 Ý nghĩa các biểu tượng</h3>
+        <div class="icon-legend">
+          <div><img src="assets/player.png" /><span>Người chơi</span></div>
+          <div><img src="assets/door.png" /><span>Cửa đích</span></div>
+          <div>
+            <img src="assets/gift.png" /><span
+              >Vật phẩm (chia sẻ / giữ lại)</span
+            >
+          </div>
+          <div>
+            <img src="assets/disabled.png" /><span>Người cần trợ giúp</span>
+          </div>
+          <div><img src="assets/storm.png" /><span>Chướng ngại vật</span></div>
+          <div><img src="assets/agreement.png" /><span>Điểm chia sẻ</span></div>
+          <div><img src="assets/barrier.png" /><span>Tường ngăn</span></div>
+        </div>
+
+        <p class="quote">
+          “Mình vì mọi người, mọi người vì mình.” — <b>Hồ Chí Minh</b>
+        </p>
+
+        <div class="guide-footer">
+          <button id="understoodBtn">Đã hiểu 💪</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
