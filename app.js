@@ -434,13 +434,15 @@ function endGame(title, msg) {
   hidePanel();
   document.getElementById('endTitle').textContent = title;
   document.getElementById('endMsg').textContent = msg;
-  document.getElementById('statS').textContent = `Stamina: ${S.stamina}/12`;
-  document.getElementById('statW').textContent = `Weight: ${S.weight}/12`;
+  document.getElementById('statS').textContent = `Thể lực ⚡: ${S.stamina}/12`;
+  document.getElementById(
+    'statW'
+  ).textContent = `Khối lượng 🎒: ${S.weight}/12`;
   document.getElementById(
     'statWh'
   ).textContent = `Kho chung: ${S.warehouse}/${S.goal}`;
-  document.getElementById('statE').textContent = `Esteem: ${S.esteem}`;
-  document.getElementById('statH').textContent = `Trợ giúp: ${S.helpers}`;
+  document.getElementById('statE').textContent = `Danh tiếng ✨: ${S.esteem}`;
+  document.getElementById('statH').textContent = `Trợ giúp 🤝: ${S.helpers}`;
   document.getElementById('end').classList.add('show');
 }
 
